@@ -21,7 +21,7 @@ describe EchoServer do
       server2.puts("bar")
       expect(server2.gets).to eq("bar\n")
     end
-    
+
     it "should not terminate when closing a single connection socket" do
       server1.puts("foo")
       expect(server1.gets).to eq("foo\n")
@@ -32,9 +32,13 @@ describe EchoServer do
     it "should allow new connections after closing a single connection socket" do
       expect {server1.puts("foo")}.to_not raise_exception # Errno::ECONNREFUSED
     end
-    
+   
     it "should not close the socket for all remaining connections if only one connection is closed" do
-      new_echo_server = EchoServer.new("localhost", 3000)
+      begin
+        @es.respond_to? :nil?
+      rescue Celluloid::DeadActorError
+        @es = EchoServer.new("localhost", 3000)
+      end
       server1.puts("foo")
       expect(server1.gets).to eq("foo\n")
       server2.puts("fubar")

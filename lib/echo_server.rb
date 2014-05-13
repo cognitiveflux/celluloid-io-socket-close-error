@@ -46,5 +46,7 @@ class EchoServer
   rescue EOFError
     puts "*** #{host}:#{port} disconnected"
     socket.close
+  rescue IOError
+    puts "*** IOError detected"
   end
 end

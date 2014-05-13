@@ -1,7 +1,7 @@
 celluloid-io-socket-close-error
 ===============================
 
-This provides an error example for Celluloid::IO.
+This provides an error example for Celluloid::IO.  The current commit includes a ```rescue IOError``` clause to prevent the crash.
 
 A server initiatied socket closure terminates (e.g. as a result of invalid input or more likley, a server side timeout) the actor and **all** associated sockets.
 
@@ -54,3 +54,6 @@ If the server is working as expected, the proposed tests should complete success
 ```bash
 # rspec
 ```
+
+Adding a ```rescue IOError``` clause will prevent the actor from crashing and thus keep the remaining connections open:
+https://github.com/cognitiveflux/celluloid-io-socket-close-error/blob/master/lib/echo_server.rb#L49
